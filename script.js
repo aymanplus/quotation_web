@@ -64,12 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function generatePrintableHTML(customerName, items) {
-        // --- استخدام مسار مطلق من جذر الخادم ---
-        // هذا هو الأسلوب الأكثر قوة وموثوقية عند التشغيل عبر خادم.
-        const logoUrl = '/images/logo.png';
-        const footerUrl = '/images/footer.png';
-        // ------------------------------------
-    
+        // --- الحل النهائي: استخدام مسار نسبي بدون "/" في البداية ---
+        // هذا يجعله يعمل على الخادم المحلي وعلى GitHub Pages
+        const logoUrl = 'images/logo.png';
+        const footerUrl = 'images/footer.png';
+        // -----------------------------------------------------------
+
         const today = new Date();
         const formattedDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
         
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${item.price.toFixed(2)}</td>
             </tr>
         `).join('');
-    
+
         const printableHTML = `
             <div class="a4-page">
                 <header class="page-header">
@@ -93,14 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span>السادة / ${customerName} المحترمين</span>
                         <span>التاريخ: ${formattedDate}</span>
                     </div>
-    
+
                     <div class="subject">
                         <h3>السلام عليكم ورحمة الله وبركاته</h3>
                         <h2>الموضوع ( عرض سعر )</h2>
                     </div>
-    
+
                     <p class="intro-text">نتقدم لكم نحن مؤسسة السهم الشرقي للمقاولات العامة بعرض سعرنا هذا بخصوص توريد وتنفيذ أعمال أسفلت ونتمنى أن ينال رضاكم واسعارنا بالجدول التالي :</p>
-    
+
                     <table class="print-table">
                         <thead>
                             <tr>
@@ -114,11 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${tableRows}
                         </tbody>
                     </table>
-    
+
                     <div class="subject">
                         <h4># دفعة أولى 70%     # دفعة ثانية 30%</h4>
                     </div>
-    
+
                     <div class="note">
                         <h4>ملاحظة :-</h4>
                         <p>السعر لا يشمل ضريبة القيمة المضافة</p>
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </footer>
             </div>
         `;
-    
+
         printOutput.innerHTML = printableHTML;
     }
 });
