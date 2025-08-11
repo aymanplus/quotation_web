@@ -215,7 +215,42 @@ td .remove-btn {
     .note p { margin: 0; }
     .page-footer { margin-top: auto; padding-top: 20px; }
 }
+.payment-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+}
 
+.payment-item span {
+    flex-grow: 1; /* اجعل النص يأخذ المساحة المتاحة */
+}
+
+.payment-item .remove-payment-btn {
+    background-color: var(--danger-color);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    box-shadow: none;
+    flex-shrink: 0; /* امنع الزر من التقلص */
+}
+
+.add-payment-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#add-payment-btn {
+    background-color: var(--primary-action-color);
+    padding: 0;
+    width: 45px; /* اجعل الزر مربع الشكل */
+    height: 45px;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
 @media (max-width: 768px) {
     
     /* تقليل هوامش الحاوية الرئيسية لتناسب الشاشة */
