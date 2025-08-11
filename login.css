@@ -1,0 +1,117 @@
+:root {
+    --primary-text-color: #ffffff;
+    --secondary-text-color: #e0e0e0;
+    --accent-color: #e67e22; /* Deep Orange */
+    --input-bg-color: rgba(255, 255, 255, 0.1);
+    --input-border-color: rgba(255, 255, 255, 0.3);
+    --danger-color: #ffb8b8;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    /* --- خلفية متدرجة جذابة --- */
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: var(--primary-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* لمنع ظهور أي scrollbars */
+}
+
+.login-container {
+    width: 100%;
+    padding: 20px;
+}
+
+/* --- تصميم البطاقة الزجاجية --- */
+.login-box {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 45px;
+    background: rgba(255, 255, 255, 0.15); /* شفافية خفيفة */
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px); /* التأثير الزجاجي */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.company-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-text-color);
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.welcome-message {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 30px;
+}
+
+.input-group {
+    text-align: right;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 15px;
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--primary-text-color);
+    transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+    color: var(--secondary-text-color);
+}
+
+.input-group input:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.5);
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #d35400; /* Darker orange */
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: var(--danger-color);
+    margin-top: 15px;
+    font-weight: 600;
+    height: 20px; /* To prevent layout shift */
+    font-size: 0.9rem;
+}
