@@ -1,6 +1,4 @@
 /* --- Modern & Professional Styles --- */
-
-/* 1. Color Palette & Variables */
 :root {
     --primary-text-color: #2c3e50; /* Dark Blue-Gray */
     --secondary-text-color: #7f8c8d; /* Medium Gray */
@@ -14,7 +12,6 @@
     --shadow-color: rgba(44, 62, 80, 0.15);
 }
 
-/* 2. Global Styles & Typography */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -33,7 +30,7 @@ body {
     max-width: 900px;
     margin: 40px auto;
     padding: 0;
-    background: transparent; /* Container is now a wrapper */
+    background: transparent;
     box-shadow: none;
 }
 
@@ -53,7 +50,6 @@ h2 {
     font-size: 1.5rem;
 }
 
-/* 3. Card-based Layout for Forms */
 fieldset {
     background-color: var(--card-background-color);
     border: none;
@@ -75,7 +71,6 @@ legend {
     color: var(--accent-color);
 }
 
-/* 4. Enhanced Form Inputs */
 label {
     display: block;
     margin-bottom: 8px;
@@ -99,7 +94,6 @@ input[type="text"]:focus, input[type="number"]:focus {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
-/* 5. Interactive Buttons */
 .item-inputs {
     display: flex;
     gap: 15px;
@@ -141,7 +135,6 @@ button:hover {
     margin-top: 20px;
 }
 
-/* 6. Modern Table Design */
 #items-table-wrapper {
     background-color: var(--card-background-color);
     padding: 20px;
@@ -184,13 +177,11 @@ td .remove-btn {
     box-shadow: none;
 }
 
-/* 7. Print Styles (Remain the same as they are functional) */
 #print-output {
     display: none;
 }
 
 @media print {
-    /* (هذا الجزء لم يتغير لأنه وظيفي، ولكن يمكنك إضافته هنا للتأكيد) */
     .container {
         display: none !important;
     }
