@@ -215,3 +215,42 @@ td .remove-btn {
     .note p { margin: 0; }
     .page-footer { margin-top: auto; padding-top: 20px; }
 }
+
+@media (max-width: 768px) {
+    
+    /* تقليل هوامش الحاوية الرئيسية لتناسب الشاشة */
+    .container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    /* تعديل هام: جعل عناصر إضافة البند تترتب عمودياً */
+    .item-inputs {
+        flex-direction: column; /* <-- التغيير الرئيسي هنا */
+        align-items: stretch;   /* اجعل العناصر تمتد بعرض الحاوية */
+    }
+
+    /* تعديل حجم زر "إضافة" ليمتد بعرض الحاوية */
+    #add-item-btn {
+        width: 100%;
+        padding: 15px; /* تكبير الزر لسهولة النقر */
+    }
+
+    /* تقليل حجم الخطوط للعناوين */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    /* جعل الجدول قابلاً للتمرير أفقيًا إذا كان أكبر من الشاشة */
+    #items-table-wrapper {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 600px; /* تحديد عرض أدنى للجدول لمنعه من الانضغاط الشديد */
+    }
+}
