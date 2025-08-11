@@ -1,0 +1,226 @@
+/* --- Modern & Professional Styles --- */
+
+/* 1. Color Palette & Variables */
+:root {
+    --primary-text-color: #2c3e50; /* Dark Blue-Gray */
+    --secondary-text-color: #7f8c8d; /* Medium Gray */
+    --background-color: #ecf0f1; /* Light Gray */
+    --card-background-color: #ffffff;
+    --accent-color: #e67e22; /* Deep Orange */
+    --primary-action-color: #3498db; /* Bright Blue */
+    --success-color: #27ae60; /* Green */
+    --danger-color: #c0392b; /* Red */
+    --border-color: #bdc3c7;
+    --shadow-color: rgba(44, 62, 80, 0.15);
+}
+
+/* 2. Global Styles & Typography */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0;
+    background: transparent; /* Container is now a wrapper */
+    box-shadow: none;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--primary-text-color);
+    font-weight: 700;
+}
+
+h2 {
+    text-align: right;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--primary-text-color);
+    font-size: 1.5rem;
+}
+
+/* 3. Card-based Layout for Forms */
+fieldset {
+    background-color: var(--card-background-color);
+    border: none;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.2s ease-in-out;
+}
+
+fieldset:hover {
+    transform: translateY(-3px);
+}
+
+legend {
+    padding: 0 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+/* 4. Enhanced Form Inputs */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-text-color);
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-action-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* 5. Interactive Buttons */
+.item-inputs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.item-inputs .desc-input {
+    flex-grow: 2;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#add-item-btn {
+    background-color: var(--primary-action-color);
+}
+
+.generate-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+    background-color: var(--success-color);
+    margin-top: 20px;
+}
+
+/* 6. Modern Table Design */
+#items-table-wrapper {
+    background-color: var(--card-background-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+th, td {
+    border: none;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+thead th {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--secondary-text-color);
+    border-bottom-width: 2px;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+td .remove-btn {
+    background-color: var(--danger-color);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    box-shadow: none;
+}
+
+/* 7. Print Styles (Remain the same as they are functional) */
+#print-output {
+    display: none;
+}
+
+@media print {
+    /* (هذا الجزء لم يتغير لأنه وظيفي، ولكن يمكنك إضافته هنا للتأكيد) */
+    .container {
+        display: none !important;
+    }
+    #print-output {
+        display: block;
+    }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    body {
+        margin: 0; padding: 0; background-color: #fff;
+    }
+    .a4-page {
+        width: 210mm; min-height: 297mm; padding: 20mm; margin: 0 auto;
+        display: flex; flex-direction: column; box-shadow: none; border: none; font-size: 14px;
+    }
+    .page-header img, .page-footer img { width: 100%; height: auto; }
+    .page-main { flex-grow: 1; width: 100%; }
+    .header-info { display: flex; justify-content: space-between; margin-bottom: 25px; }
+    .subject { text-align: center; margin: 25px 0; }
+    .subject h2 { font-size: 18px; font-weight: bold; margin: 5px 0 0 0; }
+    .subject h3 { font-size: 16px; font-weight: normal; margin: 0; }
+    .subject h4 { font-size: 14px; font-weight: bold; margin: 0; }
+    .intro-text { text-align: right; margin-bottom: 20px; }
+    .print-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+    .print-table th, .print-table td { border: 1px solid #333; padding: 8px; text-align: center; }
+    .print-table thead { background-color: #e9e9e9; font-weight: bold; }
+    .note { text-align: right; margin-top: 25px; }
+    .note h4 { font-weight: bold; margin: 0 0 5px 0; }
+    .note p { margin: 0; }
+    .page-footer { margin-top: auto; padding-top: 20px; }
+}

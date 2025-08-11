@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء عرض سعر</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <h1>إنشاء عرض سعر جديد</h1>
+        
+        <form id="quotation-form">
+            <!-- بيانات العميل -->
+            <fieldset>
+                <legend>بيانات العميل</legend>
+                <div class="form-group">
+                    <label for="customer-name">اسم العميل / الشركة:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+            </fieldset>
+
+            <!-- إضافة البنود -->
+            <fieldset>
+                <legend>إضافة بند جديد</legend>
+                <div class="item-inputs">
+                    <input type="text" id="item-desc" placeholder="وصف البند" class="desc-input">
+                    <input type="text" id="item-unit" placeholder="الوحدة (م2)">
+                    <input type="number" id="item-price" placeholder="السعر">
+                    <button type="button" id="add-item-btn">إضافة</button>
+                </div>
+            </fieldset>
+
+            <div id="items-table-wrapper"> <!-- <-- إضافة هذا الـ div -->
+                <h2>البنود المضافة</h2>
+                <table id="items-table">
+                    <thead>
+                        <tr>
+                            <th>م</th>
+                            <th>البيان</th>
+                            <th>الوحدة</th>
+                            <th>السعر</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- سيتم ملء الصفوف هنا عبر JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- زر الإنشاء النهائي -->
+            <button type="submit" class="generate-btn">إنشاء وطباعة عرض السعر</button>
+        </form>
+    </div>
+
+    <!-- هذا الجزء مخفي وسيتم ملؤه للطباعة فقط -->
+    <div id="print-output"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
