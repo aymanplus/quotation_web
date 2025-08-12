@@ -1,24 +1,29 @@
+/* --- Login Page Styles - Aligned with Main App Theme --- */
+
+/* 1. Color Palette & Variables */
 :root {
-    --primary-text-color: #ffffff;
-    --secondary-text-color: #e0e0e0;
-    --accent-color: #e67e22; /* Deep Orange */
-    --input-bg-color: rgba(255, 255, 255, 0.1);
-    --input-border-color: rgba(255, 255, 255, 0.3);
-    --danger-color: #ffb8b8;
+    --primary-text-color: #2c3e50;
+    --secondary-text-color: #7f8c8d;
+    --background-color: #f4f6f9;
+    --card-background-color: #ffffff;
+    --accent-color: #e67e22;
+    --primary-action-color: #3498db;
+    --danger-color: #e74c3c;
+    --border-color: #dfe4ea;
+    --shadow-color: rgba(44, 62, 80, 0.1);
 }
 
+/* 2. Body & Layout */
 body {
     font-family: 'Cairo', sans-serif;
     direction: rtl;
-    /* --- خلفية متدرجة جذابة --- */
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    background-color: var(--background-color);
     color: var(--primary-text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    overflow: hidden; /* لمنع ظهور أي scrollbars */
 }
 
 .login-container {
@@ -26,92 +31,119 @@ body {
     padding: 20px;
 }
 
-/* --- تصميم البطاقة الزجاجية --- */
+/* 3. Login Box with Card Style */
 .login-box {
-    max-width: 420px;
+    max-width: 480px; /* يمكن زيادة عرض البطاقة قليلاً */
     margin: 0 auto;
-    padding: 45px;
-    background: rgba(255, 255, 255, 0.15); /* شفافية خفيفة */
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px); /* التأثير الزجاجي */
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px 50px; /* زيادة الهوامش الداخلية */
+    background-color: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px var(--shadow-color);
     text-align: center;
 }
 
+/* 4. Typography */
 .company-name {
     font-size: 2rem;
     font-weight: 700;
     color: var(--primary-text-color);
     margin-bottom: 10px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
 .welcome-message {
     font-size: 1rem;
     color: var(--secondary-text-color);
-    margin-bottom: 30px;
+    margin-bottom: 35px; /* زيادة المسافة السفلية */
 }
 
+/* 5. Form Elements (Styled like the main page's inputs) */
 .input-group {
     text-align: right;
     margin-bottom: 25px;
-    position: relative;
 }
 
 .input-group label {
     display: block;
     margin-bottom: 10px;
     font-weight: 600;
-    font-size: 0.9rem;
     color: var(--secondary-text-color);
+    font-size: 0.95rem;
+    padding-right: 5px; /* إضافة مسافة بادئة للعنوان */
 }
 
+/* ==== التعديل الرئيسي هنا ==== */
 .input-group input {
-    width: 100%;
-    padding: 14px 15px;
-    background-color: var(--input-bg-color);
-    border: 1px solid var(--input-border-color);
+    display: block; /* مهم للتوسيط */
+    width: 90%; /* تحديد عرض أقل من 100% */
+    margin: 0 auto; /* توسيط الحقل أفقيًا */
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
     font-size: 1rem;
-    color: var(--primary-text-color);
-    transition: all 0.3s ease;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
-
-.input-group input::placeholder {
-    color: var(--secondary-text-color);
-}
+/* ============================= */
 
 .input-group input:focus {
     outline: none;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: var(--accent-color);
-    box-shadow: 0 0 15px rgba(230, 126, 34, 0.5);
+    border-color: var(--primary-action-color);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25);
 }
 
+/* 6. Button Style */
 button[type="submit"] {
-    width: 100%;
+    display: block; /* مهم للتوسيط */
+    width: 90%; /* نفس عرض حقول الإدخال */
+    margin: 0 auto; /* توسيط الزر */
     padding: 15px;
     border: none;
-    background-color: var(--accent-color);
+    background-color: var(--accent-color); 
     color: white;
     font-size: 1.1rem;
     font-weight: 700;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button[type="submit"]:hover {
-    background-color: #d35400; /* Darker orange */
-    transform: translateY(-2px);
+    background-color: #d35400;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+button[type="submit"]:disabled {
+    cursor: not-allowed;
+    background-color: #f39c12;
+    opacity: 0.8;
 }
 
 .error-message {
-    color: var(--danger-color);
-    margin-top: 15px;
+    margin-top: 20px; /* زيادة المسافة العلوية */
     font-weight: 600;
-    height: 20px; /* To prevent layout shift */
+    height: 20px;
     font-size: 0.9rem;
+    color: var(--danger-color);
+}
+
+/* 7. Loading Spinner */
+.spinner {
+    border: 3px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    border-top-color: #fff;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }

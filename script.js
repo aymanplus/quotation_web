@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     // --- دالة إشعار Toast ---
     function showToast(message, type = 'success') {
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 document.body.removeChild(toast);
             }, 300);
-        }, 3000); // 3 ثواني
+        }, 3000);
     }
 
     // --- منطق تسجيل الخروج والهيدر ---
@@ -35,21 +34,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- جلب العناصر ---
     const quotationForm = document.getElementById('quotation-form');
-    // ... باقي العناصر ...
-    const paymentTotalDisplay = document.getElementById('payment-total-display');
-
-    // --- إدارة البنود ---
+    const customerNameInput = document.getElementById('customer-name');
     const addItemBtn = document.getElementById('add-item-btn');
     const itemsTableBody = document.querySelector('#items-table tbody');
     const itemDescInput = document.getElementById('item-desc');
     const itemUnitInput = document.getElementById('item-unit');
     const itemPriceInput = document.getElementById('item-price');
-    
-    let items = [];
-    let itemCounter = 1;
+    const quotationDateInput = document.getElementById('quotation-date');
+    const paymentsContainer = document.getElementById('payments-container');
+    const addPaymentBtn = document.getElementById('add-payment-btn');
+    const paymentDescInput = document.getElementById('payment-desc');
+    const paymentPercentInput = document.getElementById('payment-percent');
+    const paymentTotalDisplay = document.getElementById('payment-total-display');
 
+    // --- إعدادات الحالة (State) ---
+    let items = [];
+    let payments = [];
+    let itemCounter = 1;
+    let paymentCounter = 1;
+
+    // =================================================================
+    // ==== التعديل هنا: ضبط التاريخ الافتراضي ليكون تاريخ اليوم ====
+    // =================================================================
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0! Months are 0-11
+    const dd = String(today.getDate()).padStart(2, '0');
+    
+    quotationDateInput.value = `${yyyy}-${mm}-${dd}`;
+    // =================================================================
+
+    // --- منطق إدارة البنود (Items) ---
     addItemBtn.addEventListener('click', () => {
-        // ... (نفس الكود السابق لإضافة بند)
         const description = itemDescInput.value.trim();
         const unit = itemUnitInput.value.trim();
         const price = parseFloat(itemPriceInput.value);
@@ -64,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function updateItemsTable() { /* نفس الكود السابق */ 
+    function updateItemsTable() {
         itemsTableBody.innerHTML = '';
         items.forEach((item, index) => {
             const row = document.createElement('tr');
@@ -75,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     itemsTableBody.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-btn')) {
-            // إضافة تأكيد قبل الحذف
             if (confirm('هل أنت متأكد من حذف هذا البند؟')) {
                 const itemId = parseInt(e.target.getAttribute('data-id'));
                 items = items.filter(item => item.id !== itemId);
@@ -85,15 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- إدارة الدفعات ---
-    const paymentsContainer = document.getElementById('payments-container');
-    const addPaymentBtn = document.getElementById('add-payment-btn');
-    const paymentDescInput = document.getElementById('payment-desc');
-    const paymentPercentInput = document.getElementById('payment-percent');
-    
-    let payments = [];
-    let paymentCounter = 1;
-    
+    // --- منطق إدارة الدفعات (Payments) ---
     addPaymentBtn.addEventListener('click', () => {
         const description = paymentDescInput.value.trim();
         const percentage = parseFloat(paymentPercentInput.value);
@@ -116,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `<span>${payment.description}: ${payment.percentage}%</span><button type="button" class="remove-payment-btn" data-id="${payment.id}">x</button>`;
             paymentsContainer.appendChild(div);
         });
-        updatePaymentTotalDisplay(); // تحديث المجموع
+        updatePaymentTotalDisplay();
     }
     
     paymentsContainer.addEventListener('click', (e) => {
@@ -141,10 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return total === 100;
     }
     
-    // --- إرسال الفورم الرئيسي ---
-    const quotationDateInput = document.getElementById('quotation-date');
-    const customerNameInput = document.getElementById('customer-name');
-
+    // --- منطق إرسال الفورم الرئيسي ---
     quotationForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const customerName = customerNameInput.value.trim();
@@ -163,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- دالة إنشاء PDF ---
     function generatePrintableHTML(customerName, items, quotationDate, payments) {
-        // ... نفس الكود السابق لدالة generatePrintableHTML ...
         const logoUrl = 'images/logo.png';
         const footerUrl = 'images/footer.png';
 
