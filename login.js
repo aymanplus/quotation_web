@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // =======================================================
         // ==== مصفوفة المستخدمين الجدد ====
         const users = [
-            { username: "النعيم", password: "123456" },
+            { username: "النعيم", password: "123456x" },
             { username: "ابو خالد", password: "112233" }
             // يمكنك إضافة المزيد من المستخدمين هنا
             // { username: "مستخدم آخر", password: "كلمة سر" }
