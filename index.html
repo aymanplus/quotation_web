@@ -19,6 +19,7 @@
     </script>
 </head>
 <!-- index.html -->
+<!-- index.html -->
 <body>
     <!-- الهيدر الجديد مع زر تسجيل الخروج -->
     <header class="app-header">
@@ -30,43 +31,70 @@
         <h1>إنشاء عرض سعر</h1>
         
         <form id="quotation-form">
-            <!-- استخدام details لجعل القسم قابل للطي -->
-            <details>
-                <summary>بيانات العميل</summary>
-                <div class="form-group" style="margin-top: 20px;">
-                    <label for="customer-name">اسم العميل / الشركة:</label>
-                    <input type="text" id="customer-name" required>
-                </div>
-            </details>
-
-            <details>
-                <summary>إضافة بند جديد</summary>
-                <div class="item-inputs" style="margin-top: 20px;">
-                    <input type="text" id="item-desc" placeholder="وصف البند" class="desc-input">
-                    <input type="text" id="item-unit" placeholder="الوحدة (م2)">
-                    <input type="number" id="item-price" placeholder="السعر">
-                    <button type="button" id="add-item-btn">إضافة بند</button>
-                </div>
-            </details>
-
-            <details open> <!-- مفتوح بشكل افتراضي -->
-                <summary>إعدادات إضافية</summary>
-                <div class="advanced-settings" style="margin-top: 20px;">
+            
+            <!-- ======================= البطاقة الموحدة الجديدة ======================= -->
+            <div class="form-card">
+                
+                <!-- قسم بيانات العميل -->
+                <div class="form-section">
+                    <h3>1. بيانات العميل</h3>
                     <div class="form-group">
-                        <label for="quotation-date">تاريخ عرض السعر:</label>
-                        <input type="date" id="quotation-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label>الدفعات: <span id="payment-total-display" style="font-weight: bold;">(المجموع: 0%)</span></label>
-                        <div id="payments-container"></div>
-                        <div class="add-payment-form">
-                            <input type="text" id="payment-desc" placeholder="وصف الدفعة">
-                            <input type="number" id="payment-percent" placeholder="النسبة %" min="0" max="100">
-                            <button type="button" id="add-payment-btn">+</button>
-                        </div>
+                        <label for="customer-name">اسم العميل / الشركة:</label>
+                        <input type="text" id="customer-name" required>
                     </div>
                 </div>
-            </details>
+
+                <!-- قسم إضافة البنود -->
+<div class="form-section">
+    <h3>2. إضافة بند جديد</h3>
+    <div class="item-inputs-container">
+        <div class="item-input-fields">
+            <!-- السطر الأول: حقل الوصف يأخذ العرض الكامل -->
+            <input type="text" id="item-desc" placeholder="وصف البند">
+            
+            <!-- السطر الثاني: حاوية جديدة للوحدة والسعر -->
+            <div class="unit-price-row">
+                <input type="text" id="item-unit" placeholder="الوحدة (م2)">
+                <input type="number" id="item-price" placeholder="السعر">
+            </div>
+        </div>
+        <button type="button" id="add-item-btn">إضافة بند</button>
+    </div>
+</div>
+
+               <!-- قسم الإعدادات الإضافية -->
+<div class="form-section">
+    <h3>3. إعدادات إضافية</h3>
+    <div class="advanced-settings">
+        <!-- قسم التاريخ المُحسّن -->
+        <div class="form-group">
+            <label for="quotation-date">تاريخ عرض السعر:</label>
+            <div class="date-input-wrapper">
+                <input type="date" id="quotation-date" required>
+                <!-- أيقونة التقويم (SVG) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+        </div>
+
+        <!-- قسم الدفعات المُحسّن -->
+        <div class="form-group">
+            <label>الدفعات: <span id="payment-total-display" style="font-weight: bold;">(المجموع: 0%)</span></label>
+            <div id="payments-container"></div>
+            <div class="add-payment-form">
+                <!-- سطر حقول الإدخال -->
+                <div class="payment-input-row">
+                    <input type="text" id="payment-desc" placeholder="وصف الدفعة">
+                    <input type="number" id="payment-percent" placeholder="%" min="0" max="100">
+                </div>
+                <!-- سطر زر الإضافة -->
+                <button type="button" id="add-payment-btn">إضافة دفعة</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
+            <!-- ===================== نهاية البطاقة الموحدة ===================== -->
 
             <div id="items-table-wrapper">
                 <h2>البنود المضافة</h2>

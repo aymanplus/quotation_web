@@ -1,0 +1,857 @@
+Web Code Extraction (HTML, CSS, JS) - 2025-08-15 21:20:41
+========================================
+
+File Name: index.html
+File Path: C:\Users\Admin\Desktop\010\quotation_web\index.html
+File Content:
+--------------------
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء عرض سعر</title>
+    
+    <!-- الربط مع ملفات التصميم والخطوط -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- سكريبت الحماية: التحقق من تسجيل الدخول قبل تحميل الصفحة -->
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<!-- index.html -->
+<body>
+    <!-- الهيدر الجديد مع زر تسجيل الخروج -->
+    <header class="app-header">
+        <div class="welcome-user">مرحباً, <span id="welcome-username"></span></div>
+        <button id="logout-btn">تسجيل الخروج</button>
+    </header>
+
+    <div class="container">
+        <h1>إنشاء عرض سعر</h1>
+        
+        <form id="quotation-form">
+            <!-- استخدام details لجعل القسم قابل للطي -->
+            <details>
+                <summary>بيانات العميل</summary>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="customer-name">اسم العميل / الشركة:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+            </details>
+
+            <details>
+                <summary>إضافة بند جديد</summary>
+                <div class="item-inputs" style="margin-top: 20px;">
+                    <input type="text" id="item-desc" placeholder="وصف البند" class="desc-input">
+                    <input type="text" id="item-unit" placeholder="الوحدة (م2)">
+                    <input type="number" id="item-price" placeholder="السعر">
+                    <button type="button" id="add-item-btn">إضافة بند</button>
+                </div>
+            </details>
+
+            <details open> <!-- مفتوح بشكل افتراضي -->
+                <summary>إعدادات إضافية</summary>
+                <div class="advanced-settings" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="quotation-date">تاريخ عرض السعر:</label>
+                        <input type="date" id="quotation-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الدفعات: <span id="payment-total-display" style="font-weight: bold;">(المجموع: 0%)</span></label>
+                        <div id="payments-container"></div>
+                        <div class="add-payment-form">
+                            <input type="text" id="payment-desc" placeholder="وصف الدفعة">
+                            <input type="number" id="payment-percent" placeholder="النسبة %" min="0" max="100">
+                            <button type="button" id="add-payment-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <div id="items-table-wrapper">
+                <h2>البنود المضافة</h2>
+                <table id="items-table">
+                    <thead><tr><th>م</th><th>البيان</th><th>الوحدة</th><th>السعر</th><th>إجراء</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <button type="submit" class="generate-btn">إنشاء وطباعة عرض السعر</button>
+        </form>
+    </div>
+
+    <div id="print-output"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+--------------------
+
+File Name: login.css
+File Path: C:\Users\Admin\Desktop\010\quotation_web\login.css
+File Content:
+--------------------
+/* --- Login Page Styles - Aligned with Main App Theme --- */
+
+/* 1. Color Palette & Variables */
+:root {
+    --primary-text-color: #2c3e50;
+    --secondary-text-color: #7f8c8d;
+    --background-color: #f4f6f9;
+    --card-background-color: #ffffff;
+    --accent-color: #e67e22;
+    --primary-action-color: #3498db;
+    --danger-color: #e74c3c;
+    --border-color: #dfe4ea;
+    --shadow-color: rgba(44, 62, 80, 0.1);
+}
+
+/* 2. Body & Layout */
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    width: 100%;
+    padding: 20px;
+}
+
+/* 3. Login Box with Card Style */
+.login-box {
+    max-width: 480px; /* يمكن زيادة عرض البطاقة قليلاً */
+    margin: 0 auto;
+    padding: 40px 50px; /* زيادة الهوامش الداخلية */
+    background-color: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    text-align: center;
+}
+
+/* 4. Typography */
+.company-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-text-color);
+    margin-bottom: 10px;
+}
+
+.welcome-message {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 35px; /* زيادة المسافة السفلية */
+}
+
+/* 5. Form Elements (Styled like the main page's inputs) */
+.input-group {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--secondary-text-color);
+    font-size: 0.95rem;
+    padding-right: 5px; /* إضافة مسافة بادئة للعنوان */
+}
+
+/* ==== التعديل الرئيسي هنا ==== */
+.input-group input {
+    display: block; /* مهم للتوسيط */
+    width: 90%; /* تحديد عرض أقل من 100% */
+    margin: 0 auto; /* توسيط الحقل أفقيًا */
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+/* ============================= */
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-action-color);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25);
+}
+
+/* 6. Button Style */
+button[type="submit"] {
+    display: block; /* مهم للتوسيط */
+    width: 90%; /* نفس عرض حقول الإدخال */
+    margin: 0 auto; /* توسيط الزر */
+    padding: 15px;
+    border: none;
+    background-color: var(--accent-color); 
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button[type="submit"]:hover {
+    background-color: #d35400;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+button[type="submit"]:disabled {
+    cursor: not-allowed;
+    background-color: #f39c12;
+    opacity: 0.8;
+}
+
+.error-message {
+    margin-top: 20px; /* زيادة المسافة العلوية */
+    font-weight: 600;
+    height: 20px;
+    font-size: 0.9rem;
+    color: var(--danger-color);
+}
+
+/* 7. Loading Spinner */
+.spinner {
+    border: 3px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    border-top-color: #fff;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+--------------------
+
+File Name: login.html
+File Path: C:\Users\Admin\Desktop\010\quotation_web\login.html
+File Content:
+--------------------
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - السهم الشرقي</title>
+    
+    <!-- الربط مع ملفات التصميم والخطوط -->
+    <link rel="stylesheet" href="login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- سكريبت لمنع المستخدم المسجل دخوله من رؤية هذه الصفحة -->
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="company-name">مؤسسة السهم الشرقي</h1>
+            <p class="welcome-message">مرحباً بك! الرجاء تسجيل الدخول للمتابعة.</p>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <!-- الزر سيحتوي على مؤشر التحميل عند الضغط عليه -->
+                <button type="submit">تسجيل الدخول</button>
+                <p id="error-message" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- الربط مع ملف المنطق الخاص بتسجيل الدخول -->
+    <script src="login.js"></script>
+</body>
+</html>
+--------------------
+
+File Name: login.js
+File Path: C:\Users\Admin\Desktop\010\quotation_web\login.js
+File Content:
+--------------------
+document.addEventListener('DOMContentLoaded', () => {
+    // جلب عناصر النموذج من الـ HTML
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('error-message');
+    const loginButton = loginForm.querySelector('button');
+
+    // إضافة مستمع لحدث إرسال النموذج
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // عرض مؤشر التحميل وتعطيل الزر
+        loginButton.innerHTML = '<span class="spinner"></span> جارٍ التحقق...';
+        loginButton.disabled = true;
+        errorMessage.textContent = '';
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // =======================================================
+        // ==== مصفوفة المستخدمين الجدد ====
+        const users = [
+            { username: "النعيم", password: "123456" },
+            { username: "ابو خالد", password: "112233" }
+            // يمكنك إضافة المزيد من المستخدمين هنا
+            // { username: "مستخدم آخر", password: "كلمة سر" }
+        ];
+        // =======================================================
+
+        // محاكاة تأخير الشبكة
+        setTimeout(() => {
+            // البحث عن مستخدم مطابق في المصفوفة
+            const foundUser = users.find(user => user.username === username && user.password === password);
+
+            if (foundUser) {
+                // في حالة نجاح تسجيل الدخول:
+                
+                // تخزين حالة تسجيل الدخول واسم المستخدم
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('username', foundUser.username); // تخزين اسم المستخدم الذي تم العثور عليه
+                
+                // توجيه المستخدم إلى الصفحة الرئيسية
+                window.location.href = 'index.html';
+
+            } else {
+                // في حالة فشل تسجيل الدخول:
+
+                // عرض رسالة خطأ
+                errorMessage.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
+                
+                // إعادة الزر إلى حالته الطبيعية
+                loginButton.innerHTML = 'تسجيل الدخول';
+                loginButton.disabled = false;
+            }
+        }, 500);
+    });
+});
+--------------------
+
+File Name: script.js
+File Path: C:\Users\Admin\Desktop\010\quotation_web\script.js
+File Content:
+--------------------
+document.addEventListener('DOMContentLoaded', () => {
+    // --- دالة إشعار Toast ---
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+
+    // --- منطق تسجيل الخروج والهيدر ---
+    const logoutBtn = document.getElementById('logout-btn');
+    const welcomeUsername = document.getElementById('welcome-username');
+    
+    const loggedInUser = sessionStorage.getItem('username');
+    if (loggedInUser) {
+        welcomeUsername.textContent = loggedInUser;
+    }
+
+    logoutBtn.addEventListener('click', () => {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+    });
+
+    // --- جلب العناصر ---
+    const quotationForm = document.getElementById('quotation-form');
+    const customerNameInput = document.getElementById('customer-name');
+    const addItemBtn = document.getElementById('add-item-btn');
+    const itemsTableBody = document.querySelector('#items-table tbody');
+    const itemDescInput = document.getElementById('item-desc');
+    const itemUnitInput = document.getElementById('item-unit');
+    const itemPriceInput = document.getElementById('item-price');
+    const quotationDateInput = document.getElementById('quotation-date');
+    const paymentsContainer = document.getElementById('payments-container');
+    const addPaymentBtn = document.getElementById('add-payment-btn');
+    const paymentDescInput = document.getElementById('payment-desc');
+    const paymentPercentInput = document.getElementById('payment-percent');
+    const paymentTotalDisplay = document.getElementById('payment-total-display');
+
+    // --- إعدادات الحالة (State) ---
+    let items = [];
+    let payments = [];
+    let itemCounter = 1;
+    let paymentCounter = 1;
+
+    // =================================================================
+    // ==== التعديل هنا: ضبط التاريخ الافتراضي ليكون تاريخ اليوم ====
+    // =================================================================
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0! Months are 0-11
+    const dd = String(today.getDate()).padStart(2, '0');
+    
+    quotationDateInput.value = `${yyyy}-${mm}-${dd}`;
+    // =================================================================
+
+    // --- منطق إدارة البنود (Items) ---
+    addItemBtn.addEventListener('click', () => {
+        const description = itemDescInput.value.trim();
+        const unit = itemUnitInput.value.trim();
+        const price = parseFloat(itemPriceInput.value);
+
+        if (description && unit && !isNaN(price)) {
+            items.push({ id: itemCounter++, description, unit, price });
+            updateItemsTable();
+            showToast('تمت إضافة البند بنجاح!', 'success');
+            itemDescInput.value = ''; itemUnitInput.value = ''; itemPriceInput.value = '';
+        } else {
+            showToast('الرجاء ملء جميع حقول البند.', 'error');
+        }
+    });
+
+    function updateItemsTable() {
+        itemsTableBody.innerHTML = '';
+        items.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td><td>${item.description}</td><td>${item.unit}</td><td>${item.price.toFixed(2)}</td><td><button type="button" class="remove-btn" data-id="${item.id}">حذف</button></td>`;
+            itemsTableBody.appendChild(row);
+        });
+    }
+
+    itemsTableBody.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-btn')) {
+            if (confirm('هل أنت متأكد من حذف هذا البند؟')) {
+                const itemId = parseInt(e.target.getAttribute('data-id'));
+                items = items.filter(item => item.id !== itemId);
+                updateItemsTable();
+                showToast('تم حذف البند.', 'error');
+            }
+        }
+    });
+
+    // --- منطق إدارة الدفعات (Payments) ---
+    addPaymentBtn.addEventListener('click', () => {
+        const description = paymentDescInput.value.trim();
+        const percentage = parseFloat(paymentPercentInput.value);
+
+        if (description && !isNaN(percentage) && percentage > 0) {
+            payments.push({ id: paymentCounter++, description, percentage });
+            updatePaymentsList();
+            showToast('تمت إضافة الدفعة بنجاح!', 'success');
+            paymentDescInput.value = ''; paymentPercentInput.value = '';
+        } else {
+            showToast('الرجاء إدخال وصف ونسبة صحيحة.', 'error');
+        }
+    });
+
+    function updatePaymentsList() {
+        paymentsContainer.innerHTML = '';
+        payments.forEach(payment => {
+            const div = document.createElement('div');
+            div.className = 'payment-item';
+            div.innerHTML = `<span>${payment.description}: ${payment.percentage}%</span><button type="button" class="remove-payment-btn" data-id="${payment.id}">x</button>`;
+            paymentsContainer.appendChild(div);
+        });
+        updatePaymentTotalDisplay();
+    }
+    
+    paymentsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-payment-btn')) {
+            if (confirm('هل أنت متأكد من حذف هذه الدفعة؟')) {
+                const paymentId = parseInt(e.target.getAttribute('data-id'));
+                payments = payments.filter(p => p.id !== paymentId);
+                updatePaymentsList();
+                showToast('تم حذف الدفعة.', 'error');
+            }
+        }
+    });
+    
+    function updatePaymentTotalDisplay() {
+        const total = payments.reduce((sum, p) => sum + p.percentage, 0);
+        paymentTotalDisplay.textContent = `(المجموع: ${total}%)`;
+        if (total !== 100 && payments.length > 0) {
+            paymentTotalDisplay.style.color = 'var(--danger-color)';
+        } else {
+            paymentTotalDisplay.style.color = 'var(--success-color)';
+        }
+        return total === 100;
+    }
+    
+    // --- منطق إرسال الفورم الرئيسي ---
+    quotationForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const customerName = customerNameInput.value.trim();
+        const quotationDate = quotationDateInput.value;
+        
+        if (!customerName || items.length === 0 || !quotationDate) {
+            showToast('الرجاء إكمال الحقول الأساسية.', 'error'); return;
+        }
+        if (payments.length > 0 && !updatePaymentTotalDisplay()) {
+            showToast('مجموع الدفعات يجب أن يساوي 100%.', 'error'); return;
+        }
+        
+        generatePrintableHTML(customerName, items, quotationDate, payments);
+        window.print();
+    });
+
+    // --- دالة إنشاء PDF ---
+    function generatePrintableHTML(customerName, items, quotationDate, payments) {
+        const logoUrl = 'images/logo.png';
+        const footerUrl = 'images/footer.png';
+
+        const dateParts = quotationDate.split('-');
+        const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+        
+        const tableRows = items.map((item, index) => `<tr><td>${index + 1}</td><td style="text-align: right;">${item.description}</td><td>${item.unit}</td><td>${item.price.toFixed(2)}</td></tr>`).join('');
+        
+        const paymentsText = payments.map(p => `# ${p.description} ${p.percentage}%`).join('     ');
+
+        const printOutput = document.getElementById('print-output');
+        printOutput.innerHTML = `
+            <div class="a4-page">
+                <header class="page-header"><img src="${logoUrl}" alt="Company Logo"></header>
+                <main class="page-main">
+                    <div class="header-info">
+                        <span>السادة / ${customerName} المحترمين</span>
+                        <span>التاريخ: ${formattedDate}</span>
+                    </div>
+                    <div class="subject">
+                        <h3>السلام عليكم ورحمة الله وبركاته</h3>
+                        <h2>الموضوع ( عرض سعر )</h2>
+                    </div>
+                    <p class="intro-text">نتقدم لكم نحن مؤسسة السهم الشرقي للمقاولات العامة بعرض سعرنا هذا بخصوص توريد وتنفيذ أعمال أسفلت ونتمنى أن ينال رضاكم واسعارنا بالجدول التالي :</p>
+                    <table class="print-table">
+                        <thead><tr><th>م</th><th>البيان</th><th>الوحدة</th><th>السعر بالريال</th></tr></thead>
+                        <tbody>${tableRows}</tbody>
+                    </table>
+                    
+                    ${payments.length > 0 ? `<div class="subject"><h4>${paymentsText}</h4></div>` : ''}
+
+                    <div class="note">
+                        <h4>ملاحظة :-</h4>
+                        <p>السعر لا يشمل ضريبة القيمة المضافة</p>
+                    </div>
+                </main>
+                <footer class="page-footer"><img src="${footerUrl}" alt="Company Footer"></footer>
+            </div>
+        `;
+    }
+});
+--------------------
+
+File Name: style.css
+File Path: C:\Users\Admin\Desktop\010\quotation_web\style.css
+File Content:
+--------------------
+/* --- Enhanced & Professional Styles with UX/UI Improvements --- */
+
+/* 1. Color Palette & Variables */
+:root {
+    --primary-text-color: #2c3e50; /* Dark Blue-Gray */
+    --secondary-text-color: #7f8c8d; /* Medium Gray */
+    --background-color: #f4f6f9; /* Lighter, cleaner gray */
+    --card-background-color: #ffffff;
+    --accent-color: #e67e22; /* Deep Orange */
+    --primary-action-color: #3498db; /* Bright Blue */
+    --success-color: #27ae60; /* Green */
+    --danger-color: #e74c3c; /* Brighter Red */
+    --border-color: #dfe4ea;
+    --shadow-color: rgba(44, 62, 80, 0.1);
+    --hover-shadow-color: rgba(44, 62, 80, 0.2);
+}
+
+/* 2. Global Styles & Typography */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    line-height: 1.7;
+    transition: background-color 0.3s;
+    padding-top: 80px; /* Space for the fixed header */
+}
+
+.container {
+    max-width: 950px;
+    margin: 0 auto 40px auto; /* Adjusted margin-top */
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 35px;
+    color: var(--primary-text-color);
+    font-weight: 700;
+    font-size: 2.2rem;
+}
+
+h2 {
+    text-align: right;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent-color);
+    color: var(--primary-text-color);
+    font-size: 1.6rem;
+}
+
+/* 3. Card-based Layout (using <details> now) */
+details {
+    background-color: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 35px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+details[open] {
+    padding-bottom: 30px;
+}
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    list-style: none; /* Hide default triangle */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { /* Using ::after for the icon on the left */
+    content: '+';
+    font-size: 1.5rem;
+    margin-right: 10px;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+details[open] summary::after {
+    transform: rotate(45deg);
+}
+
+
+/* 4. Enhanced Form Inputs */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--secondary-text-color);
+    font-size: 0.95rem;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-action-color);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25);
+}
+
+.item-inputs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.item-inputs .desc-input { flex-grow: 2; }
+
+/* 5. Unified Button Styles */
+button {
+    padding: 12px 25px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#add-item-btn { background-color: var(--primary-action-color); }
+.generate-btn { display: block; width: 100%; padding: 18px; font-size: 1.2rem; background-color: var(--success-color); margin-top: 20px; }
+
+/* 6. Modern Table Design */
+#items-table-wrapper {
+    background-color: var(--card-background-color);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+table { width: 100%; border-collapse: collapse; margin: 0; }
+th, td { border: none; padding: 16px; text-align: center; border-bottom: 1px solid var(--border-color); }
+thead th { font-size: 0.9rem; text-transform: uppercase; color: var(--secondary-text-color); border-bottom-width: 2px; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background-color: #f8f9fa; }
+td .remove-btn { background-color: var(--danger-color); padding: 8px 14px; font-size: 0.9rem; box-shadow: none; }
+
+/* 7. Enhanced Advanced & Payment Sections */
+.advanced-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.add-payment-form { display: flex; gap: 10px; margin-top: 15px; }
+
+#add-payment-btn {
+    background: linear-gradient(45deg, var(--primary-action-color), #8e44ad);
+    padding: 0; width: 48px; height: 48px; font-size: 1.8rem; line-height: 48px; flex-shrink: 0;
+}
+
+#payments-container { display: flex; flex-direction: column; gap: 10px; }
+.payment-item {
+    display: flex; align-items: center; gap: 15px; background-color: #f9fafb;
+    padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-color); font-weight: 600;
+}
+.payment-item span { flex-grow: 1; }
+.payment-item .remove-payment-btn {
+    background-color: transparent; color: var(--danger-color); border: 1px solid var(--danger-color);
+    box-shadow: none; padding: 4px 10px;
+}
+.payment-item .remove-payment-btn:hover { background-color: var(--danger-color); color: white; }
+#payment-total-error { font-weight: 600; }
+
+/* 8. Global UX/UI Enhancements */
+.app-header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    background-color: var(--card-background-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    padding: 10px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+}
+.app-header .welcome-user { font-weight: 600; }
+.app-header #logout-btn { background-color: var(--danger-color); font-size: 0.9rem; padding: 8px 18px; }
+
+.toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    padding: 12px 25px; border-radius: 50px; color: white; font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 2000; opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+.toast.success { background-color: var(--success-color); }
+.toast.error { background-color: var(--danger-color); }
+
+.spinner {
+    border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff;
+    width: 20px; height: 20px; animation: spin 1s linear infinite;
+    display: inline-block; margin-left: 10px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 9. Responsive Design */
+@media (max-width: 768px) {
+    body { padding-top: 70px; }
+    .app-header { padding: 10px 20px; }
+    .container { margin: 20px auto; padding: 0 10px; }
+    details { padding: 15px; }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+    .item-inputs { flex-direction: column; align-items: stretch; }
+    #add-item-btn { width: 100%; padding: 15px; }
+    .advanced-settings { grid-template-columns: 1fr; }
+    #items-table-wrapper { overflow-x: auto; }
+    table { min-width: 600px; }
+}
+
+/* 10. Print Styles */
+@media print {
+    .container, .app-header, .toast {display: none !important;}
+    body { padding-top: 0; }
+    #print-output {display: block;}
+    @page {size: A4; margin: 0;}
+    body {margin: 0; padding: 0; background-color: #fff;}
+    .a4-page {
+        width: 210mm; min-height: 297mm; padding: 20mm; margin: 0 auto;
+        display: flex; flex-direction: column; box-shadow: none; border: none; font-size: 14px;
+    }
+    .page-header img, .page-footer img { width: 100%; height: auto; }
+    .page-main { flex-grow: 1; width: 100%; }
+    .header-info { display: flex; justify-content: space-between; margin-bottom: 25px; }
+    .subject { text-align: center; margin: 25px 0; }
+    .subject h2 { font-size: 18px; font-weight: bold; margin: 5px 0 0 0; }
+    .subject h3 { font-size: 16px; font-weight: normal; margin: 0; }
+    .subject h4 { font-size: 14px; font-weight: bold; margin: 0; }
+    .intro-text { text-align: right; margin-bottom: 20px; }
+    .print-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+    .print-table th, .print-table td { border: 1px solid #333; padding: 8px; text-align: center; }
+    .print-table thead { background-color: #e9e9e9; font-weight: bold; }
+    .note { text-align: right; margin-top: 25px; }
+    .note h4 { font-weight: bold; margin: 0 0 5px 0; }
+    .note p { margin: 0; }
+    .page-footer { margin-top: auto; padding-top: 20px; }
+}
+--------------------
+
+========================================
+End of Extraction

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.className = `toast ${type}`;
         toast.textContent = message;
         document.body.appendChild(toast);
-        
+
         setTimeout(() => {
             toast.classList.add('show');
         }, 100);
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- منطق تسجيل الخروج والهيدر ---
     const logoutBtn = document.getElementById('logout-btn');
     const welcomeUsername = document.getElementById('welcome-username');
-    
+
     const loggedInUser = sessionStorage.getItem('username');
     if (loggedInUser) {
         welcomeUsername.textContent = loggedInUser;
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0! Months are 0-11
     const dd = String(today.getDate()).padStart(2, '0');
-    
+
     quotationDateInput.value = `${yyyy}-${mm}-${dd}`;
     // =================================================================
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         updatePaymentTotalDisplay();
     }
-    
+
     paymentsContainer.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-payment-btn')) {
             if (confirm('هل أنت متأكد من حذف هذه الدفعة؟')) {
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
+
     function updatePaymentTotalDisplay() {
         const total = payments.reduce((sum, p) => sum + p.percentage, 0);
         paymentTotalDisplay.textContent = `(المجموع: ${total}%)`;
@@ -147,20 +147,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return total === 100;
     }
-    
+
     // --- منطق إرسال الفورم الرئيسي ---
     quotationForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const customerName = customerNameInput.value.trim();
         const quotationDate = quotationDateInput.value;
-        
+
         if (!customerName || items.length === 0 || !quotationDate) {
             showToast('الرجاء إكمال الحقول الأساسية.', 'error'); return;
         }
         if (payments.length > 0 && !updatePaymentTotalDisplay()) {
             showToast('مجموع الدفعات يجب أن يساوي 100%.', 'error'); return;
         }
-        
+
         generatePrintableHTML(customerName, items, quotationDate, payments);
         window.print();
     });
@@ -172,32 +172,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dateParts = quotationDate.split('-');
         const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-        
-        const tableRows = items.map((item, index) => `<tr><td>${index + 1}</td><td style="text-align: right;">${item.description}</td><td>${item.unit}</td><td>${item.price.toFixed(2)}</td></tr>`).join('');
-        
-        const paymentsText = payments.map(p => `# ${p.description} ${p.percentage}%`).join('     ');
 
+        const tableRows = items.map((item, index) => `<tr><td>${index + 1}</td><td class="print-description-cell">${item.description}</td><td>${item.unit}</td><td>${item.price.toFixed(2)}</td></tr>`).join('');
+
+// إنشاء قائمة HTML مُنسّقة للدفعات
+let paymentsListHTML = '';
+if (payments.length > 0) {
+    const paymentItems = payments.map((p, index) => {
+        return `<li><span class="payment-desc">${p.description}</span> <span class="payment-percent">${p.percentage}%</span></li>`;
+    }).join('');
+    
+    paymentsListHTML = `
+        <div class="payments-section">
+            <h4>الدفعات -:</h4>
+            <ol class="payments-list">
+                ${paymentItems}
+            </ol>
+        </div>
+    `;
+}
         const printOutput = document.getElementById('print-output');
         printOutput.innerHTML = `
             <div class="a4-page">
                 <header class="page-header"><img src="${logoUrl}" alt="Company Logo"></header>
                 <main class="page-main">
-                    <div class="header-info">
-                        <span>السادة / ${customerName} المحترمين</span>
-                        <span>التاريخ: ${formattedDate}</span>
-                    </div>
-                    <div class="subject">
-                        <h3>السلام عليكم ورحمة الله وبركاته</h3>
-                        <h2>الموضوع ( عرض سعر )</h2>
-                    </div>
-                    <p class="intro-text">نتقدم لكم نحن مؤسسة السهم الشرقي للمقاولات العامة بعرض سعرنا هذا بخصوص توريد وتنفيذ أعمال أسفلت ونتمنى أن ينال رضاكم واسعارنا بالجدول التالي :</p>
-                    <table class="print-table">
+    <div class="header-info">
+        <!-- قسم التاريخ أصبح في سطر منفصل على اليسار -->
+        <div class="date-section">التاريخ: ${formattedDate}</div>
+        
+        <!-- قسم العميل أصبح في سطر خاص به -->
+        <div class="customer-section">
+            <span class="customer-prefix">السادة / ${customerName}</span>
+            <span class="customer-suffix">المحترمين</span>
+        </div>
+    </div>
+    
+    <!-- قسم "السلام عليكم" -->
+    <div class="greetings">
+        <h3>السلام عليكم ورحمة الله وبركاته</h3>
+    </div>
+
+    <!-- قسم "عرض سعر" في المنتصف -->
+    <div class="subject">
+        <h2>عرض سعر</h2>
+    </div>
+
+    <p class="intro-text">نتقدم لكم نحن مؤسسة السهم الشرقي للمقاولات العامة بعرض سعرنا هذا بخصوص توريد وتنفيذ أعمال أسفلت ونتمنى أن ينال رضاكم واسعارنا بالجدول التالي :</p><table class="print-table">
                         <thead><tr><th>م</th><th>البيان</th><th>الوحدة</th><th>السعر بالريال</th></tr></thead>
                         <tbody>${tableRows}</tbody>
                     </table>
                     
-                    ${payments.length > 0 ? `<div class="subject"><h4>${paymentsText}</h4></div>` : ''}
-
+                    ${paymentsListHTML}
                     <div class="note">
                         <h4>ملاحظة :-</h4>
                         <p>السعر لا يشمل ضريبة القيمة المضافة</p>
